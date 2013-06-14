@@ -27,6 +27,7 @@
       twitter_api_url: "api.twitter.com",       // [string]   custom twitter api url, if any (apigee, etc.)
       twitter_search_url: "search.twitter.com", // [string]   custom twitter search url, if any (apigee, etc.)
       template: "{avatar}{time}{join}{text}",   // [string or function] template used to construct each tweet <li> - see code for available vars
+      max_id: 0,
       comparator: function(tweet1, tweet2) {    // [function] comparator used to sort tweets (see Array.sort)
         return tweet2["tweet_time"] - tweet1["tweet_time"];
       },
@@ -127,14 +128,14 @@
       var proto = ('https:' == document.location.protocol ? 'https:' : 'http:');
       var count = (s.fetch === null) ? s.count : s.fetch;
       if (s.list) {
-        return proto+"//"+s.twitter_api_url+"/1/"+s.username[0]+"/lists/"+s.list+"/statuses.json?page="+s.page+"&per_page="+count;
+        return proto+"//"+s.twitter_api_url+"/1/"+s.username[0]+"/lists/"+s.list+"/statuses.json?max_id="+s.max_id+"&per_page="+count;
       } else if (s.favorites) {
-        return proto+"//"+s.twitter_api_url+"/favorites/"+s.username[0]+".json?page="+s.page+"&count="+count;
+        return proto+"//"+s.twitter_api_url+"/favorites/"+s.username[0]+".json?max_id="+s.max_id+"&count="+count;
       } else if (s.query === null && s.username.length == 1) {
-        return proto+'//'+s.twitter_api_url+'/?username='+s.username[0]+'&count='+count+(s.retweets ? '&retweet=1' : '')+'&page='+s.page+'&key='+s.auth_key;
+        return proto+'//'+s.twitter_api_url+'/?username='+s.username[0]+'&count='+count+(s.retweets ? '&retweet=1' : '')+'&max_id='+s.max_id+'&key='+s.auth_key;
       } else {
         var query = (s.query || 'from:'+s.username.join(' OR from:'));
-        return proto+'//'+s.twitter_search_url+'/search.json?&q='+encodeURIComponent(query)+'&rpp='+count+'&page='+s.page;
+        return proto+'//'+s.twitter_search_url+'/search.json?&q='+encodeURIComponent(query)+'&rpp='+count+'&max_id='+s.max_id;
       }
     }
 
