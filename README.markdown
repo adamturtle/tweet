@@ -1,4 +1,7 @@
 # Tweet!
+
+#### This is my fork of Tweet. It's mostly the same, with a few amendments to work with my own hosted Twitter app for fetching tweets.
+
 #### Put twitter on your website with tweet!, an unobtrusive javascript plugin for jquery.
 
 ## Important note about Twitter's API changes in 2013
